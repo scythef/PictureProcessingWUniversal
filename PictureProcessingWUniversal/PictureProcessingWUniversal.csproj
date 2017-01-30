@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{621E01F8-306D-4483-B75B-623D191FEAC1}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PictureProcessingWUniversal</RootNamespace>
+    <AssemblyName>PictureProcessingWUniversal</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>PictureProcessingWUniversal_StoreKey.pfx</PackageCertificateKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PackageCertificateThumbprint>AB18B2447F99F08149DA78094102697BF2456ECF</PackageCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="PictureProcessingWUniversal_StoreKey.pfx" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Connections.cs" />
+    <Compile Include="Models\CropLST.cs" />
+    <Compile Include="Models\Crop.cs" />
+    <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\DeviceLST.cs" />
+    <Compile Include="Models\People.cs" />
+    <Compile Include="Models\PeopleLST.cs" />
+    <Compile Include="Models\Place.cs" />
+    <Compile Include="Models\PlaceLST.cs" />
+    <Compile Include="PictureProcessingAPIClient\Devices.cs" />
+    <Compile Include="PictureProcessingAPIClient\DevicesExtensions.cs" />
+    <Compile Include="PictureProcessingAPIClient\IDevices.cs" />
+    <Compile Include="PictureProcessingAPIClient\IIoT.cs" />
+    <Compile Include="PictureProcessingAPIClient\IoT.cs" />
+    <Compile Include="PictureProcessingAPIClient\IoTExtensions.cs" />
+    <Compile Include="PictureProcessingAPIClient\IPictureProcessingAPIClient.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\DeviceAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\EventAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\EventAPICollection.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\EventCreationResultAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PeopleAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PeopleAPICollection.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PictureAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PictureAPICollection.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PlaceAPI.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\PlaceAPICollection.cs" />
+    <Compile Include="PictureProcessingAPIClient\Models\StringCollection.cs" />
+    <Compile Include="PictureProcessingAPIClient\PictureProcessingAPIClient.cs" />
+    <Compile Include="PictureProcessingAPIClient\PictureProcessingAPIClientExtensions.cs" />
+    <Compile Include="Services\DeviceSVC.cs" />
+    <Compile Include="Services\PeopleSVC.cs" />
+    <Compile Include="Services\PlaceSVC.cs" />
+    <Compile Include="ViewModels\CropViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModelLST.cs" />
+    <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\CamPictureViewModel.cs" />
+    <Compile Include="ViewModels\EventViewModelLST.cs" />
+    <Compile Include="ViewModels\PeopleViewModel.cs" />
+    <Compile Include="ViewModels\PeopleViewModelLST.cs" />
+    <Compile Include="ViewModels\PlaceViewModel.cs" />
+    <Compile Include="ViewModels\PlaceViewModelLST.cs" />
+    <Compile Include="ViewModels\ViewModelHelpers.cs" />
+    <Compile Include="Views\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EventsPage.xaml.cs">
+      <DependentUpon>EventsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CamPicture.cs" />
+    <Compile Include="Models\CamPictureLST.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventLST.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EventSVC.cs" />
+    <Compile Include="Services\PictureSVC.cs" />
+    <Compile Include="Views\PeoplePage.xaml.cs">
+      <DependentUpon>PeoplePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="PictureProcessingWUniversal_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Icons\back64.png" />
+    <Content Include="Assets\Icons\bell64.png" />
+    <Content Include="Assets\Icons\calenda64r.png" />
+    <Content Include="Assets\Icons\camera64.png" />
+    <Content Include="Assets\Icons\checkeduser64.png" />
+    <Content Include="Assets\Icons\delete64.png" />
+    <Content Include="Assets\Icons\door64.png" />
+    <Content Include="Assets\Icons\lock64.png" />
+    <Content Include="Assets\Icons\login64.png" />
+    <Content Include="Assets\Icons\next64.png" />
+    <Content Include="Assets\Icons\refresh64.png" />
+    <Content Include="Assets\Icons\save64.png" />
+    <Content Include="Assets\Icons\settings64.png" />
+    <Content Include="Assets\Icons\siren64.png" />
+    <Content Include="Assets\Icons\takecamera64.png" />
+    <Content Include="Assets\Icons\takephoto64.png" />
+    <Content Include="Assets\Icons\time64.png" />
+    <Content Include="Assets\Icons\timer64.png" />
+    <Content Include="Assets\Icons\unlock64.png" />
+    <Content Include="Assets\Icons\user64.png" />
+    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Views\AccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EventsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PeoplePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
