@@ -10,6 +10,7 @@
 *.pubxml
 Connections.cs
 Package.StoreAssociation.xml
+Package.appxmanifest
 DoorPhoneIoTUI/Assets/
 DoorPhoneIoTUI/DoorPhoneIoTUIAPIClient/
 PictureProcessingWUniversal/Assets/
