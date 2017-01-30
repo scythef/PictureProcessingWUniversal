@@ -9,6 +9,7 @@
 *.config
 *.pubxml
 Connections.cs
+Package.StoreAssociation.xml
 DoorPhoneIoTUI/Assets/
 DoorPhoneIoTUI/DoorPhoneIoTUIAPIClient/
 PictureProcessingWUniversal/Assets/
