@@ -24,7 +24,7 @@ namespace PictureProcessingWUniversal.ViewModels
 
         public async void RefreshEvents()
         {
-            List<Event> lEvents = await EventSVC.GetEvents(App.varActualDate);
+            List<Event> lEvents = await EventSVC.GetEvents(App.varActualDate, App.varPlaceVMLST.SelectedPlace.GUID);
             _Events.Clear();
             // Load Events 
             foreach (var xEvent in lEvents)

@@ -13,10 +13,10 @@ namespace PictureProcessingWUniversal.Services
 {
     class EventSVC
     {
-        public static async Task<List<Event>> GetEvents(DateTime aDateTime)
+        public static async Task<List<Event>> GetEvents(DateTime aDateTime, Guid aPlaceGUID)
         {
             PictureProcessingAPIClient lPPAPI = new PictureProcessingAPIClient();
-            var x = await lPPAPI.GetEventsByDayWithOperationResponseAsync(aDateTime.ToString("yyyy_MM_dd"), new System.Threading.CancellationToken());
+            var x = await lPPAPI.GetEventsByDayWithOperationResponseAsync(aDateTime.ToString("yyyy_MM_dd"), aPlaceGUID.ToString(), new System.Threading.CancellationToken());
 
             IList<EventAPI> Lx = (x as Microsoft.Rest.HttpOperationResponse<IList<EventAPI>>).Body;
 

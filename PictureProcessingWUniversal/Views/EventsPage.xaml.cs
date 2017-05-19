@@ -1,4 +1,5 @@
-﻿using PictureProcessingWUniversal.Services;
+﻿using Newtonsoft.Json;
+using PictureProcessingWUniversal.Services;
 using PictureProcessingWUniversal.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -50,9 +51,19 @@ namespace PictureProcessingWUniversal.Views
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             LivePicture.DataContext = (e.ClickedItem as DeviceViewModel);
-            if ((e.ClickedItem as DeviceViewModel).DeviceType == 1 /*Relay*/)
+            switch ((e.ClickedItem as DeviceViewModel).DeviceType)
             {
-                DeviceSVC.SendCloudToDeviceMessageAsync((e.ClickedItem as DeviceViewModel).GUID.ToString(), "unlock");
+                case 0: //Camera
+                    DeviceSVC.SendCloudToDeviceMessageAsync((e.ClickedItem as DeviceViewModel).PlaceGUID.ToString(), JsonConvert.SerializeObject(new InOutMessage { DeviceID = (e.ClickedItem as DeviceViewModel).GUID.ToString(), Type = 1/*forcesnapshot*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
+                    break;
+                case 1: //Relay
+                    DeviceSVC.SendCloudToDeviceMessageAsync((e.ClickedItem as DeviceViewModel).PlaceGUID.ToString(), JsonConvert.SerializeObject(new InOutMessage { DeviceID = (e.ClickedItem as DeviceViewModel).GUID.ToString(), Type = 3/*unlock*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
+                    break;
+
+            //        if ((e.ClickedItem as DeviceViewModel).DeviceType == 1 /*Relay*/)
+            //{
+            //    DeviceSVC.SendCloudToDeviceMessageAsync((e.ClickedItem as DeviceViewModel).PlaceGUID.ToString(), JsonConvert.SerializeObject(new InOutMessage { DeviceID = (e.ClickedItem as DeviceViewModel).GUID.ToString(), Type = 3/*unlock*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
+            //}
             }
 
         }

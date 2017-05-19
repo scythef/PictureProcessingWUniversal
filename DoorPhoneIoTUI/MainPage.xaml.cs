@@ -41,10 +41,29 @@ namespace DoorPhoneIoTUI
         private static DateTime LastSentHeartBeat = DateTime.MinValue;
         private static DateTime LastTime = DateTime.Now;
         private static DateTime NowTime = LastTime;
+        private static bool ForceSnapshot = false;
         WriteableBitmap bitmapImageEx;
         DoorPhoneIoTUIAPIClient lPPAPI = new DoorPhoneIoTUIAPIClient();
         int varCounter = 0;
         string varLastStr = "";
+
+        //duplicity in PictureProcessingWebJob a WUniversal
+        public class InOutMessage
+        {
+            public string DeviceID { get; set; }
+            public int Type { get; set; }
+            /*
+             0 - facedetected
+             1 - in-forcedsnapshot/out-snapshot
+             2 - facerecognized
+             3 - in-unlock/out-unlocked
+             4 - heartbeat
+             5 - in-forcedcall/out-call
+             */
+            public string DateTime { get; set; }
+            public string Parameter { get; set; }
+        }
+
 
         public MainPage()
         {
@@ -61,25 +80,36 @@ namespace DoorPhoneIoTUI
 
         private void _communicator_MessageReceivedEvent(object sender, string e)
         {
-            //update UI
-            LogString(System.DateTime.Now.ToString() + " " + e);
-
-            switch (e)
+            try
             {
-                case "unlock": 
-                    HttpClient client = new HttpClient(); // Create HttpClient
-                    Unlock(client);
-                    break;
-            }
+                //update UI
+                LogString(System.DateTime.Now.ToString() + " " + e);
 
-            //start listening again
-            _communicator.ReceiveDataFromAzure();
+                InOutMessage lmessage = JsonConvert.DeserializeObject<InOutMessage>(e);
+
+                switch (lmessage.Type)
+                {
+                    case 1: //forcesnapshot
+                        ForceSnapshot = true;
+                        break;
+                    case 3: //unlock
+                        HttpClient client = new HttpClient(); // Create HttpClient
+                        Unlock(client);
+                        break;
+                }
+
+            }
+            finally
+            {
+                //start listening again
+                _communicator.ReceiveDataFromAzure();
+            }
         }
 
         private void Unlock(HttpClient aClient)
         {
             aClient.GetAsync(TBUnlockUrl.Text);
-            _communicator.SendDataToAzure(JsonConvert.SerializeObject("unlocked"));
+            _communicator.SendDataToAzure(JsonConvert.SerializeObject(new InOutMessage{DeviceID = DeviceID, Type = 3/*unlock*/, DateTime=DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
         }
 
         private static async Task<DeviceInformation> FindCameraDeviceByPanelAsync(Windows.Devices.Enumeration.Panel desiredPanel)
@@ -189,12 +219,27 @@ namespace DoorPhoneIoTUI
                             }
                         }
 
+                        if (ForceSnapshot)
+                        {
+                            randomAccessStream.Seek(0);
+                            LBlockBlobFull.UploadFromStreamAsync(randomAccessStream.AsStream());
+
+                            LogEventAndPicture(System.DateTime.Now.ToString() + " Forced snapshot", Guid.NewGuid().ToString(), lyyyyMMddHHmmssffff, lImgFileName, lUrl, client, 1 /*Snapshot*/);
+                            ForceSnapshot = false;
+                        }
+
+                        //if (Unlocked)
+                        //{
+                        //    todo a la forced snapshot....
+
+                        //}
+
 
                         lDetectedFaces = await GetFace(bitmapImageEx);
                         if (lDetectedFaces.Count > 0)
                         {
                             lStr = System.DateTime.Now.ToString() + " Face detected";
-                            _communicator.SendDataToAzure(JsonConvert.SerializeObject("facedetected"));
+                            _communicator.SendDataToAzure(JsonConvert.SerializeObject(new InOutMessage { DeviceID = DeviceID, Type = 0/*facedetected*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
 
                             randomAccessStream.Seek(0);
                             LBlockBlobFull.UploadFromStreamAsync(randomAccessStream.AsStream());
@@ -236,14 +281,15 @@ namespace DoorPhoneIoTUI
                         if (LastSentHeartBeat.AddSeconds(Int32.Parse(TBHeartBeat.Text)) < DateTime.Now)
                         {
                             LastSentHeartBeat = DateTime.Now;
-                            var telemetryDataPoint = new
-                            {
-                                deviceId = DeviceID,
-                                datatype = 4, //heartbeat
-                                datetime = LastSentHeartBeat.ToString("yyyy_MM_dd_HH_mm_ss_ffff"),
-                                notice = "heart beat"
-                            };
-                            _communicator.SendDataToAzure(JsonConvert.SerializeObject(telemetryDataPoint));
+                            //var telemetryDataPoint = new
+                            //{
+                            //    deviceId = DeviceID,
+                            //    datatype = 4, //heartbeat
+                            //    datetime = LastSentHeartBeat.ToString("yyyy_MM_dd_HH_mm_ss_ffff"),
+                            //    notice = "heart beat"
+                            //};
+                            _communicator.SendDataToAzure(JsonConvert.SerializeObject(new InOutMessage { DeviceID = DeviceID, Type = 4/*heartbeat*/, DateTime = LastSentHeartBeat.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
+//                            _communicator.SendDataToAzure(JsonConvert.SerializeObject(telemetryDataPoint));
                             LogString(LastSentHeartBeat.ToString() + " Heart beat");
                         }
                         GC.Collect();
@@ -294,7 +340,8 @@ namespace DoorPhoneIoTUI
             switch (aEventType)
             {
                 case 0: //facerecognized
-                    _communicator.SendDataToAzure(JsonConvert.SerializeObject("facerecognized: " + x.Body.RecognizedPersonName));
+                    _communicator.SendDataToAzure(JsonConvert.SerializeObject(new InOutMessage { DeviceID = DeviceID, Type = 2/*facerecognized*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = x.Body.RecognizedPersonName }));
+//                    _communicator.SendDataToAzure(JsonConvert.SerializeObject("facerecognized: " + x.Body.RecognizedPersonName));
                     if ((x.Response.StatusCode == HttpStatusCode.OK) && (x.Body.Confidence > 0))
                     {
                         lStr = System.DateTime.Now.ToString() + " " + x.Body.Message + "; " + x.Body.ExceptionMessage;
@@ -302,7 +349,8 @@ namespace DoorPhoneIoTUI
                     }
                     break;
                 case 1: //snapshot
-                    _communicator.SendDataToAzure(JsonConvert.SerializeObject("snapshot"));
+                    _communicator.SendDataToAzure(JsonConvert.SerializeObject(new InOutMessage { DeviceID = DeviceID, Type = 1/*snapshot*/, DateTime = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_ffff"), Parameter = "" }));
+//                    _communicator.SendDataToAzure(JsonConvert.SerializeObject("snapshot"));
                     break;
             }
             lPPAPI.CreatePictureWithOperationResponseAsync(aEventID, DeviceID, ayyyyMMddHHmmssffff, aCapturedImgFileName, aCapturedImgUrl, new System.Threading.CancellationToken());

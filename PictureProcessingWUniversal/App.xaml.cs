@@ -14,6 +14,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
 using Windows.Storage;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -122,20 +123,31 @@ namespace PictureProcessingWUniversal
 
         private async void InitNotificationsAsync()
         {
+
+
             var channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
 
             //connectionstring
             var hub = new NotificationHub( Connections.ConnectionDict["NotificationHubName"], Connections.ConnectionDict["NotificationHubConnection"]);
-            var result = await hub.RegisterNativeAsync(channel.Uri);
+
+            //var result = await hub.RegisterNativeAsync(channel.Uri);
+
+            var categories = new HashSet<string>();
+            categories.Add(Connections.DeploymentDict["PersonGroupID"]);
+
+            var result = await hub.RegisterNativeAsync(channel.Uri, categories);
+            
+            //const string templateBodyWNS = "<toast><visual><binding template=\"ToastText01\"><text id=\"1\">$(messageParam)</text></binding></visual></toast>";
+            //var result = await hub.RegisterTemplateAsync(channel.Uri, templateBodyWNS, "simpleWNSTemplateExample", categories);
 
             // Displays the registration ID so you know it was successful
             if (result.RegistrationId != null)
             {
-                var dialog = new MessageDialog("Registration successful: " + result.RegistrationId);
-                dialog.Commands.Add(new UICommand("OK"));
-//                await dialog.ShowAsync();
+                //to do - send info to IoT hub
+                //var dialog = new MessageDialog("Subscribed to: " + string.Join(",", categories) + " on registration Id: " + result.RegistrationId);
+                //dialog.Commands.Add(new UICommand("OK"));
+                //await dialog.ShowAsync();
             }
-
         }
     }
 }
